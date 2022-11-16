@@ -13,18 +13,25 @@ namespace SeleniumLearning
         {
             new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
             driver = new ChromeDriver();
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Manage().Window.Maximize();
+            driver.Url = "https://totaltavern.com/";
         }
 
         [Test]
-        public void Test1()
+        public void NavigateToWebsite()
         {
-            driver.Url = "https://totaltavern.com/";
+            TestContext.Progress.WriteLine(driver.Title);
+            TestContext.Progress.WriteLine(driver.Url);
+
+            driver.FindElement(By.XPath("//*[@id=\"navbarSupportedContent\"]/ul/li[1]/a")).Click();
         }
 
         [TearDown]
         public void CloseBrowser()
         {
-            TestContext.Progress.WriteLine("Tear down executed.");
+            driver.Quit();
         }
     }
 }
